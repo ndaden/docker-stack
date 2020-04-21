@@ -1,5 +1,6 @@
 /* eslint-disable */
-require("@babel/polyfill");
+require("core-js");
+require("regenerator-runtime");
 const path = require("path");
 const webpack = require("webpack");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
@@ -11,7 +12,7 @@ const envKeys = Object.keys(process.env).reduce((prev, next) => {
   }, {});
 
 let config = {
-	entry: ["@babel/polyfill","./src/index.js"],
+	entry: ["core-js/stable","regenerator-runtime/runtime","./src/index.js"],
 	output: {
 		path: path.resolve(__dirname, "./public"),
 		filename: "./bundle.js"
@@ -47,23 +48,19 @@ let config = {
 				test: /\.(sa|sc|c)ss$/,
 				use: [
 					MiniCssExtractPlugin.loader,
-					{
-						loader: 'css-loader'
-					},
-					{
-						loader: 'sass-loader',
-						options: {
-							sourceMap: true,
-							// options...
-						}
-					}
+					// Creates `style` nodes from JS strings
+					//'style-loader',
+					// Translates CSS into CommonJS
+					'css-loader',
+					// Compiles Sass to CSS
+					'sass-loader',
 				]
 			}]
 	},
 	plugins: [
 		new MiniCssExtractPlugin({
 			filename: 'style.css',
-			publicPath: 'assets/css'
+			publicPath: 'assets/css',
 		}),
 		new webpack.DefinePlugin(envKeys),
 	],
