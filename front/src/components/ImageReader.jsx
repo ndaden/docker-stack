@@ -23,7 +23,7 @@ const ImageReader = () => {
     };
 
     return (
-        <section className="section">
+        <div className="container is-fluid">
             <div className="columns">
                 <div className="column is-one-quarter">
                 rien
@@ -92,7 +92,7 @@ const ImageReader = () => {
                 rien
                 </div>
             </div>
-        </section>
+        </div>
     );
 };
 

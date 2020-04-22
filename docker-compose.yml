@@ -26,7 +26,8 @@ services:
         volumes:
             - ./front:/opt/react_app
             - node_modules_front:/opt/react_app/node_modules
-        command: npm run dev-docker
+        #command: "sh -c 'npm run clean && npm run build && npm run start'"
+        command: "npm run dev"
         depends_on: 
             - api
     api:
@@ -47,6 +48,8 @@ services:
             context: ./data
         volumes: 
             - ./data/db:/data/db"
+        ports: 
+            - "27017:27017"
 
 volumes: 
     node_modules_api:

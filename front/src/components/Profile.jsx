@@ -31,8 +31,7 @@ const Profile = () => {
     };
 
     return (
-        <section className="section">
-            <div className="container">
+            <div className="container is-fluid">
                 <div className="columns">
                     <div className="column is-one-third">
                         <div className="content">
@@ -90,7 +89,6 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
-        </section>
     );
 };
 

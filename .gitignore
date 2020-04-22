@@ -65,3 +65,6 @@ typings/
 # dotenv environment variables file
 .env
 
+front/public/style.css*
+front/public/bundle*
+front/public/assets/fonts

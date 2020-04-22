@@ -27,6 +27,7 @@ const App = () => {
     return (
         <Router>
             <NavBar />
+            <section id="main" className="section">
             <Switch>
             <ProtectedRoute path="/elastictool" exact component={ElasticTool} checkActive rejectMessage="Vous devez avoir un compte actif pour acceder à cette page. pour cela saisissez le code envoyé par e-mail." />
             <Route path="/signin" exact component={SignIn} />
@@ -41,6 +42,7 @@ const App = () => {
             <Route path="/" exact component={Home} />
             <Route component={Error404} />
             </Switch>
+            </section>
             <Footer />
         </Router>
     );

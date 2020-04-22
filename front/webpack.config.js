@@ -1,10 +1,10 @@
 /* eslint-disable */
 require("core-js");
 require("regenerator-runtime");
-const path = require("path");
 const webpack = require("webpack");
-const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+const path = require("path");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const envKeys = Object.keys(process.env).reduce((prev, next) => {
     prev[`process.env.${next}`] = JSON.stringify(process.env[next]);
@@ -12,6 +12,7 @@ const envKeys = Object.keys(process.env).reduce((prev, next) => {
   }, {});
 
 let config = {
+	mode: "development",
 	entry: ["core-js/stable","regenerator-runtime/runtime","./src/index.js"],
 	output: {
 		path: path.resolve(__dirname, "./public"),
@@ -44,15 +45,10 @@ let config = {
 				}
 			},
 			{
-				// Apply rule for .sass, .scss or .css files
 				test: /\.(sa|sc|c)ss$/,
 				use: [
 					MiniCssExtractPlugin.loader,
-					// Creates `style` nodes from JS strings
-					//'style-loader',
-					// Translates CSS into CommonJS
 					'css-loader',
-					// Compiles Sass to CSS
 					'sass-loader',
 				]
 			}]
@@ -63,6 +59,7 @@ let config = {
 			publicPath: 'assets/css',
 		}),
 		new webpack.DefinePlugin(envKeys),
+		//new BundleAnalyzerPlugin()
 	],
 	watchOptions: {
 		aggregateTimeout: 300,
@@ -79,13 +76,7 @@ let config = {
 		disableHostCheck: true,
 		port: 9090
 	},
-	devtool: "eval-source-map"
+	devtool: ""
 }
 
 module.exports = config;
-
-if (process.env.NODE_ENV === 'production') {
-	module.exports.optimization = {
-		minimizer: [new UglifyJSPlugin()],
-	};
-}
