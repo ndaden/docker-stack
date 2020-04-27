@@ -1,6 +1,15 @@
 import RoleService from '../service/RoleService';
+import Role from '../models/Role';
 
 const RoleController = {
+    async getAll(req, res) {
+        try {
+            const result = await RoleService.getRoles();
+            res.status(200).send(result);
+        } catch(e) {
+            res.send({ success: false, error: e.message });
+        }
+    },
     async create(req, res) {
         if (req.body.code && req.body.name) {
             const result = await RoleService.create(req.body.code, req.body.name);

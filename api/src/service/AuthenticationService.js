@@ -14,12 +14,13 @@ const AuthenticationService = {
                 if (error) {
                     return cb({ isAuthenticated: false, data: 'Unauthorized' });
                 } else {
-                    User.find({ _id: decoded._id }).then((user) => {
+                    User.find({ _id: decoded._id }).populate('roles').then((user) => {
                         const response = {
                             username: decoded.username,
                             email: decoded.email,
                             isActive: user[0].isActive,
                             avatarUrl: user[0].avatarUrl,
+                            roles: user[0].roles.map(role => role.roleCode),
                         };
                         return cb({ isAuthenticated: true, data: response });
                     });

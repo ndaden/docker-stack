@@ -20,9 +20,9 @@ services:
             context: ./front
         ports: 
             - "9090:9090"
+        env_file: ./.env.front-development
         environment: 
             - NODE_ENV=development
-            - API_URI=api
         volumes:
             - ./front:/opt/react_app
             - node_modules_front:/opt/react_app/node_modules
@@ -33,13 +33,13 @@ services:
     api:
         build: 
             context: ./api
+        env_file: ./.env.api-development
         environment: 
-            - NODE_ENV=development
-            - MONGOURI=db
-            - FRONTAPPURI=front
+            - toto=foo
         volumes: 
             - ./api:/opt/node_app
             - node_modules_api:/opt/node_app/node_modules
+        #command: "sh -c 'npm run build && npm run start'"
         command: npm run dev
         depends_on: 
             - db

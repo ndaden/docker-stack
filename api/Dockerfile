@@ -1,7 +1,7 @@
 FROM node:13.13-alpine3.10
 EXPOSE 3000
 ENV NODE_ENV development
-
+RUN npm install -g webpack
 RUN mkdir -p /opt/node_app && chown node:node /opt/node_app
 WORKDIR /opt/node_app
 

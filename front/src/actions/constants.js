@@ -19,3 +19,5 @@ export const LOGIN_KO = 'LOGIN_KO';
 
 export const IS_AUTHENTICATED = 'IS_AUTHENTICATED';
 export const ACTIVATION_OK = 'ACTIVATION_OK';
+export const GET_USERS_OK = 'GET_USERS_OK';
+export const GET_ROLES_OK = 'GET_ROLES_OK';

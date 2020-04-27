@@ -59,6 +59,8 @@ app.get('/v1/reflections/:id', [testMiddleware, ReflectionController.getOne]);
 app.delete('/v1/reflections/:id', [testMiddleware, testMiddleware]);
 
 app.get('/v1/users', [authMiddleware, UserController.getAll]);
+app.delete('/v1/users/:id', [authMiddleware, UserController.deleteUser]);
+app.get('/v1/users/disable/:id', [authMiddleware, UserController.disableUser]);
 app.get('/v1/users/:id', UserController.getById);
 app.post('/v1/users', UserController.create);
 app.post('/v1/users/activate', UserController.activate);
@@ -67,9 +69,10 @@ app.post('/v1/users/edit/password', [authMiddleware, UserController.changePasswo
 
 app.post('/v1/post', PostController.create);
 
-app.post('/v1/roles', RoleController.create);
-app.post('/v1/roles/add', RoleController.addRoleToUser);
-app.post('/v1/roles/delete', RoleController.removeRoleToUser);
+app.get('/v1/roles', [authMiddleware,RoleController.getAll]);
+app.post('/v1/roles', [authMiddleware,RoleController.create]);
+app.post('/v1/roles/add', [authMiddleware,RoleController.addRoleToUser]);
+app.post('/v1/roles/delete', [authMiddleware,RoleController.removeRoleToUser]);
 
 app.post('/v1/upload', [authMiddleware, uploadManager.single('avatar'), uploadMiddleware]);
 app.get('/v1/file/:id', UploadController.get);

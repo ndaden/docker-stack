@@ -10,7 +10,7 @@ import SignOut from './SignOut';
 import Footer from './Footer';
 import ProtectedRoute from './ProtectedRoute';
 import { Error404, TechnicalError } from './Error';
-import AdminUsers from './Admin/AdminUsers';
+import AdminIndex from './Admin/AdminIndex';
 import Card from './Card';
 
 export {
@@ -27,6 +27,6 @@ export {
     ProtectedRoute,
     Error404,
     TechnicalError,
-    AdminUsers,
+    AdminIndex,
     Card,
 };

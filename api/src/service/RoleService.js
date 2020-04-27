@@ -2,6 +2,12 @@ import Role from '../models/Role';
 import User from '../models/User';
 
 const RoleService = {
+    async getRoles() {
+        return Role.find();
+    },
+    async getRoleById(id) {
+       return Role.findById(id).exec();
+    },
     create(code, name) {
         const role = new Role({ roleCode: code, roleName: name});
         return role.save();

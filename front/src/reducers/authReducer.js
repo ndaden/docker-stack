@@ -31,6 +31,18 @@ export default (state = {}, action) => {
                 isLoading: false,
                 activationData: action.result.data,
             };
+        case Constants.GET_USERS_OK:
+            return {
+                ...state,
+                isLoading: false,
+                users: action.result,
+            };
+        case Constants.GET_ROLES_OK:
+            return {
+                ...state,
+                isLoadingRoles: false,
+                roles: action.result,
+            }
         default:
             return state;
     }

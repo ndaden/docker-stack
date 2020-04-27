@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import * as config from './config';
+import * as config from '../config';
 
 export const isAuthenticated = () => {
     const jwt = localStorage.getItem('token');

@@ -10,6 +10,9 @@ const ProtectedRoute = (props) => {
         if (props.checkActive && !user.data.isActive) {
             return <Redirect to={{ pathname: '/activate', state: { rejectMessage: props.rejectMessage } }} />;
         }
+        if(props.checkRole && !user.data.roles.includes(props.checkRole)) {
+            return <Redirect to="/" />;
+        }
         return <Route {...props} />;
     }
     return <Redirect to="/signin" />;
