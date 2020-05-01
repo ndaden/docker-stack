@@ -169,6 +169,13 @@ const UserController = {
             res.status(500).send(error);
         }
     },
+    blockUser(req, res) {
+        try {
+            userService.bloquer(req.params.id, req.params.state === 'block').then(result => res.send(result));
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    },
     getById(req, res) {
         User.findById(req.params.id).exec()
             .then(result => res.send(result),

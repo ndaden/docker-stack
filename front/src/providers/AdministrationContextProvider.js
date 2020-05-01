@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 import authReducer from '../reducers/authReducer';
-import { getUsers, deleteUser, deleteRole, addRole, getRoles } from './admin.utils';
+import { getUsers, deleteUser, deleteRole, addRole, getRoles, blockUser } from './admin.utils';
 
 const AdminContext = React.createContext();
 
@@ -8,15 +8,19 @@ const AdminContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, { isLoading: true, isLoadingRoles: true, });
 
     //empty context provider
-    const getUserList = () => {
+    const getUserList = async () => {
         return getUsers(localStorage.getItem('token'))
             .then((result) => {
                 dispatch({ type: "GET_USERS_OK", result: result.data });
             });
     }
 
-    const removeUser = (id) => {
-        return deleteUser(id, localStorage.getItem('token'));
+    const removeUser = async (id) => {
+        return await deleteUser(id, localStorage.getItem('token'));
+    }
+
+    const blockAccount = async (id, state) => {
+        return await blockUser(id, state, localStorage.getItem('token'));
     }
 
     const removeRole = (username, role) => {
@@ -30,7 +34,7 @@ const AdminContextProvider = ({ children }) => {
             });
     }
 
-    const getAllRoles = () => {
+    const getAllRoles = async () => {
         return getRoles(localStorage.getItem('token')).then(result => {
             dispatch({ type: "GET_ROLES_OK", result: result.data });
         });
@@ -43,6 +47,7 @@ const AdminContextProvider = ({ children }) => {
         grantRole,
         removeRole,
         getAllRoles,
+        blockAccount,
     };
 
     return (

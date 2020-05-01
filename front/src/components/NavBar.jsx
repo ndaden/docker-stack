@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../providers/UserContextProvider';
 
+import * as config from '../config';
 
 const NavBar = () => {
     const userContext = useContext(UserContext);
@@ -45,6 +46,14 @@ const NavBar = () => {
                 && (
                 <Link className="navbar-item" to="/elastictool" onClick={toggleBurger}>
                     ElasticSearch Admin
+                </Link>
+                )
+            }
+            {
+                (user.isAuthenticated && user.data.roles.includes(config.ROLE_ADMINISTRATOR))
+                && (
+                <Link className="navbar-item" to="/admin/users" onClick={toggleBurger}>
+                    Gestion de comptes
                 </Link>
                 )
             }

@@ -13,6 +13,9 @@ const UserService = {
     },
     async desactiver(id) {
         return await User.updateOne({ _id : id}, { isActive: false }).exec();
+    },
+    async bloquer(id, state = true) {
+        return await User.updateOne({ _id : id}, { isBlocked: state }).exec();
     }
 };
 

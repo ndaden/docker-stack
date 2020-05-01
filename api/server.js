@@ -61,6 +61,7 @@ app.delete('/v1/reflections/:id', [testMiddleware, testMiddleware]);
 app.get('/v1/users', [authMiddleware, UserController.getAll]);
 app.delete('/v1/users/:id', [authMiddleware, UserController.deleteUser]);
 app.get('/v1/users/disable/:id', [authMiddleware, UserController.disableUser]);
+app.get('/v1/users/block/:id/:state', [authMiddleware, UserController.blockUser]);
 app.get('/v1/users/:id', UserController.getById);
 app.post('/v1/users', UserController.create);
 app.post('/v1/users/activate', UserController.activate);

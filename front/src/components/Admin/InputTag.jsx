@@ -30,7 +30,7 @@ const InputTag = ({ placeholder, tags, allTags, addTagCb, removeTagCb, username 
     return (
         <div style={{ position: 'relative' }}>
             <div className="field input is-grouped is-grouped-multiline" style={{ height: 'auto' }}>
-                {addedTags.length > 0 && addedTags.map((t, k) => <span key={k} style={{ marginRight: '0.2rem' }} className="tag" data-value={t} title={t}>{t.substring(0, 3)}<button className="delete is-small" onClick={removeTag}></button></span>)}
+                {addedTags.length > 0 && addedTags.map((t, k) => <span key={k} style={{ marginRight: '0.2rem' }} className="tag is-info" data-value={t} title={t}>{t.substring(0, 3)}<button className="delete is-small" onClick={removeTag}></button></span>)}
                 <input ref={searchBox} type="text" onChange={search} placeholder={placeholder} style={{ width: 'auto', paddingLeft: '0.5rem', fontSize: '1rem', border: '0px' }} />
             </div>
             {query.length > 1 && <div className="dropdown-content" style={{ position: 'absolute', zIndex: '3', width: '100%', padding: '0.75rem' }}>
