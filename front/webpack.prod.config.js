@@ -1,6 +1,8 @@
 /* eslint-disable */
 const path = require("path");
 const webpack = require("webpack");
+require("core-js");
+require("regenerator-runtime");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const envKeys = Object.keys(process.env).reduce((prev, next) => {
@@ -10,7 +12,7 @@ const envKeys = Object.keys(process.env).reduce((prev, next) => {
 
 let config = {
 	mode: 'production',
-	entry: ["./src/index.js"],
+	entry: ["core-js/stable","regenerator-runtime/runtime","./src/index.js"],
 	output: {
 		path: path.resolve(__dirname, "./public"),
 		filename: "./bundle.js"

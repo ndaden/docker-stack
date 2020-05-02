@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node ./dist/server.js",
+    "start": "npm run build && node ./dist/server.js",
     "build": "rm -rf dist && webpack",
     "heroku-postbuild": "webpack -p",
     "dev": "nodemon ./server.js --exec babel-node",
