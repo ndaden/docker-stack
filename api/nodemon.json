@@ -1,5 +1,5 @@
 {
-    "exec": "npm run dev",
+    "exec": "babel-node",
     "watch": ["src/*", "public/*","server.js"],
     "ext": "js, html, css, json"
 }

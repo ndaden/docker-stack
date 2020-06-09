@@ -68,3 +68,5 @@ typings/
 front/public/style.css*
 front/public/bundle*
 front/public/assets/fonts
+aws_credentials.txt
+testing_scenarios.txt

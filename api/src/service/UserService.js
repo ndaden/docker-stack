@@ -1,4 +1,5 @@
 import User from '../models/User';
+import ActivationCode from '../models/ActivationCode';
 
 const UserService = {
     async getAll() {
@@ -9,7 +10,9 @@ const UserService = {
         return User.findById(id).exec();
     },
     async delete(id) {
-        return User.deleteOne({ _id: id});
+        const userToDelete = await User.findOne({_id: id});
+        await ActivationCode.deleteOne({ _id: userToDelete.activationCode });
+        return await userToDelete.deleteOne();
     },
     async desactiver(id) {
         return await User.updateOne({ _id : id}, { isActive: false }).exec();

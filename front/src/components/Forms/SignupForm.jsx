@@ -61,7 +61,7 @@ const SignupForm = () => {
 
                                 <button type="submit" className="button is-success" disabled={isSubmitting}>
                                     Créer mon compte
-                            </button>
+                                </button>
                             </Form>
                         )}
                     </Formik>
@@ -69,7 +69,7 @@ const SignupForm = () => {
                 <div className="column">
                     {result
                         && (
-                            <NotificationCard type={`${result.success ? 'success' : 'error'}`} title={`${result.success ? 'Felicitations' : 'Attention'}`} body={result.message} />
+                            <NotificationCard id="account-created" type={`${result.success ? 'success' : 'error'}`} title={`${result.success ? 'Felicitations' : 'Attention'}`} body={result.message} />
                         )}
                     <NotificationCard type="success" title="Une autre info" body="Un info dans la page de connexion" />
                 </div>

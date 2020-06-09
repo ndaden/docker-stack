@@ -15,6 +15,7 @@ import UploadController from './src/controllers/UploadController';
 import testMiddleware from './src/middleware/test.middleware';
 import authMiddleware from './src/middleware/auth.middleware';
 import uploadMiddleware from './src/middleware/upload.middleware';
+import CmsController from './src/controllers/CmsController';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -84,6 +85,26 @@ app.post('/api/v1/ocr', uploadManager.single('image'),ocrMiddleware(worker), Ocr
 
 app.post('/auth', AuthenticationController.authenticate);
 app.get('/auth', AuthenticationController.test);
+
+// CMS routes
+app.post('/cms/site', CmsController.create);
+app.put('/cms/site/:id', CmsController.update);
+app.get('/cms/site/:name', CmsController.get);
+app.get('/cms/site', CmsController.get);
+app.delete('/cms/site/:id', CmsController.delete);
+
+app.get('/cms/page', CmsController.getPages);
+app.post('/cms/page', CmsController.createPage);
+app.delete('/cms/page/:id', CmsController.deletePage);
+
+app.get('/cms/area', CmsController.getCmsArea);
+app.post('/cms/area', CmsController.createCmsArea);
+app.delete('/cms/area/:id', CmsController.deleteCmsArea);
+
+app.get('/cms/content', CmsController.getCmsContent);
+app.post('/cms/content', CmsController.createCmsContent);
+app.delete('/cms/content/:id', CmsController.deleteCmsContent);
+
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}.`);
