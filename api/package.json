@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "npm run build && node --inspect=0.0.0.0:5858 ./dist/server.js",
+    "start": "npm run build && node ./dist/server.js",
     "build": "rm -rf dist && webpack",
     "heroku-postbuild": "webpack -p",
     "dev": "nodemon ./server.js --inspect=0.0.0.0:5858 --nolazy",
