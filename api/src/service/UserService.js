@@ -3,7 +3,7 @@ import ActivationCode from '../models/ActivationCode';
 
 const UserService = {
     async getAll() {
-        const users = await User.find().populate('roles').populate('activationCode').exec();
+        const users = await User.find().populate('roles activationCode').exec();
         return users;
     },
     async getById(id) {

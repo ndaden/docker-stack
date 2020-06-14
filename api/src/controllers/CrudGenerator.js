@@ -1,4 +1,8 @@
 import express from 'express';
+import mongoose from 'mongoose';
+
+const excludedProperties = { user: '-password' };
+const populate = { user: 'roles activationCode' };
 
 const CrudGenerator = (Collection) => {
     const create = async (req, res) => {
@@ -16,7 +20,11 @@ const CrudGenerator = (Collection) => {
     const readMany = async (req, res) => {
         try{
             const query = res.locals.query || {};
-            const result = await Collection.find(query);
+            const result = await Collection.find(query)
+            .select(excludedProperties[Collection.modelName] || "")                
+            .populate(populate[Collection.modelName] || "");
+                            
+
             res.send(result);
         } catch(e) {
             console.log(e);
@@ -27,7 +35,9 @@ const CrudGenerator = (Collection) => {
     const readOne = async (req, res) => {
         try{
             const { _id } = req.params;
-            const result = await Collection.findById(_id);
+            const result = await Collection.findById(_id)
+            .select(excludedProperties[Collection.modelName] || "")                
+            .populate(populate[Collection.modelName] || "");
             res.send(result);
         } catch(e) {
             console.log(e);
@@ -48,7 +58,7 @@ const CrudGenerator = (Collection) => {
 
     const remove = async (req, res) => {
         try {
-            const removed = await Collection.remove({ _id: req.params._id });
+            const removed = await Collection.deleteOne({ _id: req.params._id });
             res.send(removed);
         }catch(e) {
             console.log(e);

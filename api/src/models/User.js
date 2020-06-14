@@ -41,6 +41,28 @@ const UserSchema = new Schema({
     }]
 });
 
+UserSchema.pre('deleteOne', (next) => {
+    console.log('Removing user...');
+    next();
+});
+
+UserSchema.post('deleteOne', (doc, next) => {
+    console.log(doc);
+    next();
+});
+
+UserSchema.pre('save', (next) => {
+    console.log('Saving user...');
+    next();
+});
+
+UserSchema.post('save', (user, next) => {
+    console.log(user);
+    next();
+});
+
 const User = mongoose.model("user", UserSchema);
+
+
 
 export default User;

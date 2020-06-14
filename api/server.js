@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 
 import { CmsSite } from './src/models/cms';
-import { Role, Post } from './src/models';
+import { Role, Post, User } from './src/models';
 
 import CrudGenerator from './src/controllers/CrudGenerator';
 
@@ -13,7 +13,6 @@ import UploadService from './src/service/UploadService';
 import UserController from './src/controllers/UserController';
 import AuthenticationController from './src/controllers/AuthenticationController';
 import RoleController from './src/controllers/RoleController';
-import PostController from './src/controllers/PostController';
 import UploadController from './src/controllers/UploadController';
 
 import authMiddleware from './src/middleware/auth.middleware';
@@ -57,6 +56,7 @@ app.get('/', (req, res) => {
     return res.status(200).send({ 'message': 'Welcome to the backend! version : 23/02/2020' });
 });
 
+//app.use('/v1/users', CrudGenerator(User));
 app.get('/v1/users', [authMiddleware, UserController.getAll]);
 app.delete('/v1/users/:id', [authMiddleware, UserController.deleteUser]);
 app.get('/v1/users/disable/:id', [authMiddleware, UserController.disableUser]);
