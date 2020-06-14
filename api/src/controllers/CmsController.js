@@ -1,12 +1,6 @@
 import CmsService from '../service/CmsService';
-import CmsService2 from '../service/CmsService_2';
-import moment from 'moment';
 
 const CmsController = {
-    async toto(req, res) {
-        const result = await new CmsService2().get();
-        res.send(result);
-    },
     async create(req, res) {
         try {
             const result = await CmsService.createCmsSite({ name: req.body.name });

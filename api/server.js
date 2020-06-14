@@ -4,15 +4,18 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
+import { CmsSite } from './src/models/cms';
+import { Role, Post } from './src/models';
+
+import CrudGenerator from './src/controllers/CrudGenerator';
+
 import UploadService from './src/service/UploadService';
-import ReflectionController from './src/controllers/ReflectionController';
 import UserController from './src/controllers/UserController';
 import AuthenticationController from './src/controllers/AuthenticationController';
 import RoleController from './src/controllers/RoleController';
 import PostController from './src/controllers/PostController';
 import UploadController from './src/controllers/UploadController';
 
-import testMiddleware from './src/middleware/test.middleware';
 import authMiddleware from './src/middleware/auth.middleware';
 import uploadMiddleware from './src/middleware/upload.middleware';
 import CmsController from './src/controllers/CmsController';
@@ -54,11 +57,6 @@ app.get('/', (req, res) => {
     return res.status(200).send({ 'message': 'Welcome to the backend! version : 23/02/2020' });
 });
 
-app.post('/v1/reflections', [testMiddleware, ReflectionController.create]);
-app.get('/v1/reflections', [testMiddleware, ReflectionController.getAll]);
-app.get('/v1/reflections/:id', [testMiddleware, ReflectionController.getOne]);
-app.delete('/v1/reflections/:id', [testMiddleware, testMiddleware]);
-
 app.get('/v1/users', [authMiddleware, UserController.getAll]);
 app.delete('/v1/users/:id', [authMiddleware, UserController.deleteUser]);
 app.get('/v1/users/disable/:id', [authMiddleware, UserController.disableUser]);
@@ -69,10 +67,9 @@ app.post('/v1/users/activate', UserController.activate);
 app.post('/v1/users/edit/avatar', [authMiddleware, uploadManager.single('avatar'), UserController.editAvatar]);
 app.post('/v1/users/edit/password', [authMiddleware, UserController.changePassword]);
 
-app.post('/v1/post', PostController.create);
+app.use('/v1/post', authMiddleware, CrudGenerator(Post));
 
-app.get('/v1/roles', [authMiddleware,RoleController.getAll]);
-app.post('/v1/roles', [authMiddleware,RoleController.create]);
+app.use('/v1/roles', authMiddleware, CrudGenerator(Role));
 app.post('/v1/roles/add', [authMiddleware,RoleController.addRoleToUser]);
 app.post('/v1/roles/delete', [authMiddleware,RoleController.removeRoleToUser]);
 
@@ -87,6 +84,8 @@ app.post('/auth', AuthenticationController.authenticate);
 app.get('/auth', AuthenticationController.test);
 
 // CMS routes
+app.use('/cms/site', authMiddleware, CrudGenerator(CmsSite));
+
 app.post('/cms/site', CmsController.create);
 app.put('/cms/site/:id', CmsController.update);
 app.get('/cms/site/:name', CmsController.get);

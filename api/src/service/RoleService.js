@@ -2,19 +2,6 @@ import Role from '../models/Role';
 import User from '../models/User';
 
 const RoleService = {
-    async getRoles() {
-        return Role.find();
-    },
-    async getRoleById(id) {
-       return Role.findById(id).exec();
-    },
-    create(code, name) {
-        const role = new Role({ roleCode: code, roleName: name});
-        return role.save();
-    },
-    delete(code) {
-        return Role.deleteOne({ roleCode: code });
-    },
     async assignRoleToUser(username, roleCode) {
         const role = await Role.findOne({ roleCode: roleCode}).exec();
         if(role) {
