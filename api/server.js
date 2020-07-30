@@ -19,6 +19,8 @@ import authMiddleware from './src/middleware/auth.middleware';
 import uploadMiddleware from './src/middleware/upload.middleware';
 import CmsController from './src/controllers/CmsController';
 
+import {publishToQueue} from './src/service/MQService';
+
 const app = express();
 const port = process.env.PORT || 3000;
 const mongoUser = process.env.MONGOUSER || '';
@@ -34,7 +36,7 @@ if (mongoUser && mongoPwd) {
     uri = `mongodb://${mongoUri}/${mongoDbName}`;
 }
 
-mongoose.connect(uri, { useNewUrlParser: true })
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB !'))
     .catch(error => console.log(error));
 
@@ -53,10 +55,11 @@ app.use(morgan('dev'));
 const uploadManager = UploadService.init();
 
 app.get('/', (req, res) => {
-    return res.status(200).send({ 'message': 'Welcome to the backend! version : 23/02/2020' });
+    publishToQueue("hello", { service : "toto", data: "titi"});
+    return res.status(200).send({ 'message': 'Welcome to the backend! version : 14/06/2020' });
 });
 
-//app.use('/v1/users', CrudGenerator(User));
+app.use('/v1/users', CrudGenerator(User));
 app.get('/v1/users', [authMiddleware, UserController.getAll]);
 app.delete('/v1/users/:id', [authMiddleware, UserController.deleteUser]);
 app.get('/v1/users/disable/:id', [authMiddleware, UserController.disableUser]);

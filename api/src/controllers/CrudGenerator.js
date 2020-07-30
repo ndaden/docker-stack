@@ -9,7 +9,7 @@ const CrudGenerator = (Collection) => {
         try {
             const newEntry = req.body;
             const created = await Collection.create(newEntry);
-            res.send(created);
+            res.send(created._id);
         }catch(e) {
             console.log(e);
             res.sendStatus(500);
@@ -49,7 +49,7 @@ const CrudGenerator = (Collection) => {
         try {
             const changedEntry = req.body;
             const updated = await Collection.update({ _id: req.params._id },{ $set: changedEntry });
-            res.send(updated);
+            res.send(updated._id);
         }catch(e) {
             console.log(e);
             res.sendStatus(500);
@@ -57,13 +57,15 @@ const CrudGenerator = (Collection) => {
     }
 
     const remove = async (req, res) => {
-        try {
-            const removed = await Collection.deleteOne({ _id: req.params._id });
-            res.send(removed);
-        }catch(e) {
+        try{
+          const result = await Collection.findOneAndDelete({ _id: req.params._id })
+          .select(excludedProperties[Collection.modelName] || "");
+          res.send(result);
+        } catch(e) {
             console.log(e);
             res.sendStatus(500);
         }
+        
     }
 
     const router = express.Router();

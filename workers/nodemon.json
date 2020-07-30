@@ -1,0 +1,5 @@
+{
+    "exec": "babel-node",
+    "watch": ["src/*", "public/*","worker.js"],
+    "ext": "js, html, css, json"
+}

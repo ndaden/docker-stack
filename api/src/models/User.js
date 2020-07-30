@@ -1,4 +1,10 @@
 import mongoose, {Schema} from 'mongoose';
+import ActivationCode from './ActivationCode';
+import Role from './Role';
+import moment from 'moment';
+import { hashSync } from 'bcryptjs';
+
+const saltRounds = 10;
 
 const UserSchema = new Schema({
     username: {
@@ -41,13 +47,13 @@ const UserSchema = new Schema({
     }]
 });
 
-UserSchema.pre('deleteOne', (next) => {
+UserSchema.pre('findOneAndDelete',{query:true}, (next) => {
     console.log('Removing user...');
     next();
 });
 
-UserSchema.post('deleteOne', (doc, next) => {
-    console.log(doc);
+UserSchema.post('findOneAndDelete', async (user, next) => {
+    await ActivationCode.deleteOne({ _id : user.activationCode });
     next();
 });
 
@@ -56,13 +62,31 @@ UserSchema.pre('save', (next) => {
     next();
 });
 
-UserSchema.post('save', (user, next) => {
-    console.log(user);
+UserSchema.post('save', async (user, next) => {
+    const code = generateActivationCode(6);
+    const newActivationCode = await ActivationCode.create({ 
+        validationCode: code, 
+        validationCodeSendDate: moment(), 
+        validationCodeExpirationDate: moment().add(30, 'minute') 
+    });
+
+    const guestRole = await Role.findOne({ roleCode: 'GUEST' }).exec();
+    user.password = hashSync(user.password, saltRounds),
+    user.activationCode = newActivationCode;
+    user.roles = [ guestRole ];
+    
+    await user.updateOne(user);
     next();
 });
 
+const generateActivationCode = (length) => {
+    let code = "";
+    const alphaNum = 'ABCDEFGHIJKLMNOPQRSTUVWXY1234567890'
+    for (var i = 0; i < length; i++) {
+        code = `${code}${alphaNum.substr(Math.random() * alphaNum.length, 1)}`;
+    }
+    return code;
+}
+
 const User = mongoose.model("user", UserSchema);
-
-
-
 export default User;
