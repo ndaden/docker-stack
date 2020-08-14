@@ -84,10 +84,9 @@ const UserController = {
 
                     await SendToken(email, code.validationCode);
                 } else if (code.validationCode === receivedCode && moment().isBefore(code.validationCodeExpirationDate)) {
-                    await currentUser.update({
-                        isActive: true,
-                        activationDate: moment(),
-                    }).exec();
+                    currentUser.isActive = true;
+                    currentUser.activationDate = moment();
+                    await currentUser.save();
 
                     await code.update({
                         validationCodeExpirationDate: moment().add(-1, 'minute'),

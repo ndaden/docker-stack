@@ -15,8 +15,8 @@ amqp.connect('amqp://rabbit', function (error0, connection) {
 });
 
 export const publishToQueue = (queueName, object) => {
-    _channel.assertQueue(queueName, { durable: false });
-    _channel.sendToQueue(queueName, Buffer.from(JSON.stringify(object)));
+    _channel.assertQueue(queueName, { durable: true });
+    _channel.sendToQueue(queueName, Buffer.from(JSON.stringify(object)), { persistent: true });
 };
 
 process.on('exit', (code) => {

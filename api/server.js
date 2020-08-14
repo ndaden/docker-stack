@@ -20,6 +20,7 @@ import uploadMiddleware from './src/middleware/upload.middleware';
 import CmsController from './src/controllers/CmsController';
 
 import {publishToQueue} from './src/service/MQService';
+import workerRoutes from './src/worker/routes';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -43,7 +44,7 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 mongoose.set('useCreateIndex', true);
 
 const corsOptions = {
-    origin: frontAppUri,
+    origin: `*`,
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
@@ -69,6 +70,8 @@ app.post('/v1/users', UserController.create);
 app.post('/v1/users/activate', UserController.activate);
 app.post('/v1/users/edit/avatar', [authMiddleware, uploadManager.single('avatar'), UserController.editAvatar]);
 app.post('/v1/users/edit/password', [authMiddleware, UserController.changePassword]);
+
+app.use('/worker', workerRoutes);
 
 app.use('/v1/post', authMiddleware, CrudGenerator(Post));
 

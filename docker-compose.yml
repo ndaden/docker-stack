@@ -30,6 +30,19 @@ services:
         command: "npm run dev"
         depends_on: 
             - api
+    workers:
+        build:
+            context: ./workers
+        volumes:
+            - ./workers:/opt/worker_app
+            - node_modules_workers:/opt/worker_app/node_modules
+        command: npm run dev
+        links: 
+            - api
+        depends_on: 
+            - api
+            - db
+            - rabbit
     api:
         build: 
             context: ./api
@@ -43,21 +56,12 @@ services:
         command: npm run dev
         depends_on: 
             - db
-    workers:
-        build:
-            context: ./workers
-        volumes:
-            - ./workers:/opt/worker_app
-            - node_modules_workers:/opt/worker_app/node_modules
-        command: npm run dev
-        depends_on: 
-            - db
             - rabbit
     db:
         build: 
             context: ./data
         volumes: 
-            - ./data/db:/data/db"
+            - mongodb_data:/data/db
         ports: 
             - "27017:27017"
     rabbit:
@@ -66,8 +70,12 @@ services:
         ports: 
             - "15672:15672"
         hostname: localrabbit
+        volumes:
+            - rabbit_data:/var/lib/rabbitmq
 
 volumes: 
     node_modules_api:
     node_modules_front:
     node_modules_workers:
+    mongodb_data:
+    rabbit_data:

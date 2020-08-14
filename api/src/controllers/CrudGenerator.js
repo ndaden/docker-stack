@@ -8,7 +8,8 @@ const CrudGenerator = (Collection) => {
     const create = async (req, res) => {
         try {
             const newEntry = req.body;
-            const created = await Collection.create(newEntry);
+            const newDocument = new Collection(newEntry);
+            const created = await newDocument.save();
             res.send(created._id);
         }catch(e) {
             console.log(e);

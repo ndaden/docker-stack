@@ -95,11 +95,11 @@ const AdminUsers = (props) => {
                                     <td>{user.username} {user.isActive && <i className="fas fa-star has-text-success" title="compte activé" />}</td>
                                     <td id={`email-${user.username}`}>{user.email}</td>
                                     <td id={`activationcode-${user.username}`}>
-                                        {user.activationCode !== null
+                                        {user.activationCode
                                         ? (
                                             <div className="is-flex" style={{ justifyContent: 'space-between' }}>
-                                                <div>{user.activationCode.validationCode}</div>
-                                                <div>{moment().isAfter(user.activationCode.validationCodeExpirationDate) ? <span className="tag is-danger">expiré</span> : <span className="tag is-success">valide</span>}</div>
+                                                <div>{user.activationCode.validationCode ? user.activationCode.validationCode : '-'}</div>
+                                                <div>{user.activationCode.validationCodeExpirationDate && moment().isAfter(user.activationCode.validationCodeExpirationDate) ? <span className="tag is-danger">expiré</span> : <span className="tag is-success">valide</span>}</div>
                                             </div>
                                             ) : <span>-</span>
                                         }
