@@ -2,7 +2,7 @@ setup:
 build:
     docker:
         web: ./api/Dockerfile
-        web: ./font/Dockerfile
+        web: ./front/Dockerfile
         web: ./workers/Dockerfile
     run: 
         web: npm start
