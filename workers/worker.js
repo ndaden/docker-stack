@@ -1,8 +1,9 @@
 import amqp from 'amqplib/callback_api';
 import finalizeUserCreation from './users/finalizeUserCreation';
+import * as config from './config';
 
-const RABBITMQ_URL = 'amqp://rabbit';
-const QUEUE_NAME = 'hello';
+const RABBITMQ_URL = config.RABBITMQ_URL;
+const QUEUE_NAME = config.USERS_QUEUENAME;
 
 amqp.connect(RABBITMQ_URL, async function (error0, connection) {
     if (error0) {

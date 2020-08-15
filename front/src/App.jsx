@@ -7,7 +7,7 @@ const App = () => {
     return (
         <Router>
             <Switch>
-            <Route path="/" exact component={StandardApp} />
+            <Route path="/" component={StandardApp} />
             <Route path="/cms" component={CmsCore} />
             </Switch>
         </Router>

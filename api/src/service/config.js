@@ -19,3 +19,8 @@ export const AWS_S3_KEY_ID = process.env.AWS_S3_KEY_ID || '';
 export const AWS_S3_KEY_SECRET = process.env.AWS_S3_KEY_SECRET || '';
 export const AWS_REGION = process.env.AWS_REGION || '';
 export const AWS_BUCKET = process.env.AWS_BUCKET || '';
+
+//MESSAGE QUEUEING
+
+export const RABBITMQ_URL = process.env.RABBITMQ_URL || 'amqp://rabbit';
+export const USERS_QUEUENAME = process.env.USERS_QUEUENAME || 'user_q';

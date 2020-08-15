@@ -18,8 +18,6 @@ import UploadController from './src/controllers/UploadController';
 import authMiddleware from './src/middleware/auth.middleware';
 import uploadMiddleware from './src/middleware/upload.middleware';
 import CmsController from './src/controllers/CmsController';
-
-import {publishToQueue} from './src/service/MQService';
 import workerRoutes from './src/worker/routes';
 
 const app = express();
@@ -44,7 +42,7 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 mongoose.set('useCreateIndex', true);
 
 const corsOptions = {
-    origin: `*`,
+    origin: `${frontAppUri}`,
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
@@ -56,8 +54,7 @@ app.use(morgan('dev'));
 const uploadManager = UploadService.init();
 
 app.get('/', (req, res) => {
-    publishToQueue("hello", { service : "toto", data: "titi"});
-    return res.status(200).send({ 'message': 'Welcome to the backend! version : 14/06/2020' });
+    return res.status(200).send({ 'message': 'Welcome to the backend! version : 15/08/2020' });
 });
 
 app.use('/v1/users', CrudGenerator(User));

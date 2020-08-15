@@ -9,9 +9,6 @@ services:
         volumes:
             - ./nginx/conf:/etc/nginx
             - ./nginx/www:/var/www
-        links: 
-            - front
-            - api
         depends_on: 
             - api
             - front
@@ -37,8 +34,6 @@ services:
             - ./workers:/opt/worker_app
             - node_modules_workers:/opt/worker_app/node_modules
         command: npm run dev
-        links: 
-            - api
         depends_on: 
             - api
             - db

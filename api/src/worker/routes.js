@@ -1,13 +1,10 @@
 import express from 'express';
 import moment from 'moment';
-import { hashSync } from 'bcryptjs';
-
 import ActivationCode from '../models/ActivationCode';
 import User from '../models/User';
 import Role from '../models/Role';
 import { SendToken } from '../service/EmailService';
 
-const saltRounds = 10;
 const router = express.Router();
 
 const finalizeUserCreation = async (req, res) => {
@@ -21,7 +18,6 @@ const finalizeUserCreation = async (req, res) => {
         });
 
         const guestRole = await Role.findOne({ roleCode: 'GUEST' }).exec();
-        user.password = hashSync(user.password, saltRounds),
         user.activationCode = newActivationCode;
         user.roles = [guestRole];
 

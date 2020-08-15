@@ -1,16 +1,29 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import { hashSync } from 'bcryptjs';
+import { publishToExchange } from '../service/MQService';
+
+const saltRounds = 10;
 
 const excludedProperties = { user: '-password' };
 const populate = { user: 'roles activationCode' };
+const queueAfterCreate = [ 'user' ];
 
 const CrudGenerator = (Collection) => {
     const create = async (req, res) => {
-        try {
+        try {            
             const newEntry = req.body;
+
+            if(Collection.modelName === 'user') {
+                newEntry.password = hashSync(newEntry.password, saltRounds);
+            }
+
             const newDocument = new Collection(newEntry);
             const created = await newDocument.save();
-            res.send(created._id);
+            if(queueAfterCreate.includes(Collection.modelName)) {
+                publishToExchange(Collection.modelName, { service: Collection.modelName, data: created })
+            }
+            res.send({ success: true, message: '', id: created._id });
         }catch(e) {
             console.log(e);
             res.sendStatus(500);

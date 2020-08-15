@@ -1,6 +1,5 @@
 import mongoose, {Schema} from 'mongoose';
 import ActivationCode from './ActivationCode';
-import { publishToQueue } from '../service/MQService';
 
 const UserSchema = new Schema({
     username: {
@@ -45,18 +44,6 @@ const UserSchema = new Schema({
 
 UserSchema.post('findOneAndDelete', async (user, next) => {
     await ActivationCode.deleteOne({ _id : user.activationCode });
-    next();
-});
-
-UserSchema.pre('save', async (next) => {
-    console.log('presaving...');
-    console.log('this:', this);
-    next();
-});
-
-UserSchema.post('save', async (user, next) => {
-    console.log('this', user.modifiedPaths());
-    publishToQueue('hello', { service : 'user', data: user });
     next();
 });
 
