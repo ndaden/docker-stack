@@ -1,10 +1,11 @@
-setup:
 build:
     docker:
-        web: ./api/Dockerfile
-        web: ./front/Dockerfile
-        web: ./workers/Dockerfile
-    run: 
-        web: npm start
-        web: npm start
-        web: npm start
+        web: api/Dockerfile
+        web: front/Dockerfile
+        web: workers/Dockerfile
+    config: 
+        test: test
+run: 
+    web: npm start
+    web: npm start
+    web: npm start
