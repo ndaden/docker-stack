@@ -1,0 +1,10 @@
+setup:
+build:
+    docker:
+        web: ./api/Dockerfile
+        web: ./font/Dockerfile
+        web: ./workers/Dockerfile
+    run: 
+        web: npm start
+        web: npm start
+        web: npm start
