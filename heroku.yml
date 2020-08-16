@@ -3,7 +3,7 @@ setup:
         plan: cloudamqp
         as: rabbit
     config: 
-        FRONTAPPURI: *
+        FRONTAPPURI: https://mydockerstack1.herokuapp.com
         MONGOURI: test
         MONGOUSER: test
         MONGOPWD: test
