@@ -1,7 +1,7 @@
 setup:
     addons:
-        plan: cloudamqp
-        as: rabbit
+    - plan: cloudamqp
+    as: rabbit
     config: 
         FRONTAPPURI: https://mydockerstack1.herokuapp.com
         MONGOURI: test
