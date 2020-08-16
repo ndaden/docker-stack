@@ -5,7 +5,7 @@ RUN npm install -g webpack
 RUN mkdir -p /opt/worker_app && chown node:node /opt/worker_app
 WORKDIR /opt/worker_app
 
-USER node
+#USER node
 COPY package*.json ./
 RUN npm install --no-optional && npm cache clean --force
 COPY . .
