@@ -13,6 +13,12 @@ build:
     docker:
         web: api/Dockerfile
         worker: workers/Dockerfile
+    config: 
+        FRONTAPPURI: https://mydockerstack1.herokuapp.com
+        MONGOURI: test
+        MONGOUSER: test
+        MONGOPWD: test
+        MONGODBNAME: test
 run: 
     web: npm start
     worker: npm start
