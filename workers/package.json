@@ -2,9 +2,9 @@
   "name": "workers",
   "version": "1.0.0",
   "description": "MQ Workers for backend ",
-  "main": "index.js",
+  "main": "worker.js",
   "scripts": {
-    "start": "npm run build && node ./dist/server.js",
+    "start": "npm run build && node ./dist/worker.js",
     "build": "rm -rf dist && webpack",
     "dev": "nodemon ./worker.js",
     "test": "jest --watchAll"
