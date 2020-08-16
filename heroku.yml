@@ -1,9 +1,18 @@
+setup:
+    addons:
+        - plan: cloudamqp
+        as: rabbit
+    config: 
+        FRONTAPPURI: *
+        MONGOURI: test
+        MONGOUSER: test
+        MONGOPWD: test
+        MONGODBNAME: test
+
 build:
     docker:
         web: api/Dockerfile
-        web: front/Dockerfile
-    config: 
-        test: test
+        worker: workers/Dockerfile
 run: 
     web: npm start
-    web: npm start
+    worker: npm start
