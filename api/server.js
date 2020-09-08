@@ -30,7 +30,7 @@ const frontAppUri = process.env.FRONTAPPURI || 'http://localhost:8080';
 let uri = '';
 
 if (mongoUser && mongoPwd) {
-    uri = `mongodb+srv://${mongoUser}:${mongoPwd}@${mongoUri}/${mongoDbName}?retryWrites=true&w=majority`;
+    uri = `mongodb://${mongoUser}:${mongoPwd}@${mongoUri}/${mongoDbName}?retryWrites=true&w=majority`;
 } else {
     uri = `mongodb://${mongoUri}/${mongoDbName}`;
 }
@@ -41,10 +41,12 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
 mongoose.set('useCreateIndex', true);
 
-const corsOptions = {
-    origin: `${frontAppUri}`,
+var whitelist = frontAppUri.split(',');
+
+var corsOptions = {
+    origin: whitelist,
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
+}
 
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -73,8 +75,8 @@ app.use('/worker', workerRoutes);
 app.use('/v1/post', authMiddleware, CrudGenerator(Post));
 
 app.use('/v1/roles', authMiddleware, CrudGenerator(Role));
-app.post('/v1/roles/add', [authMiddleware,RoleController.addRoleToUser]);
-app.post('/v1/roles/delete', [authMiddleware,RoleController.removeRoleToUser]);
+app.post('/v1/roles/add', [authMiddleware, RoleController.addRoleToUser]);
+app.post('/v1/roles/delete', [authMiddleware, RoleController.removeRoleToUser]);
 
 app.post('/v1/upload', [authMiddleware, uploadManager.single('avatar'), uploadMiddleware]);
 app.get('/v1/file/:id', UploadController.get);
