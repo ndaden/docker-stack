@@ -15,10 +15,12 @@ import AuthenticationController from './src/controllers/AuthenticationController
 import RoleController from './src/controllers/RoleController';
 import UploadController from './src/controllers/UploadController';
 
+import errorHandlingMiddleware from './src/middleware/error.middleware';
 import authMiddleware from './src/middleware/auth.middleware';
 import uploadMiddleware from './src/middleware/upload.middleware';
 import CmsController from './src/controllers/CmsController';
 import workerRoutes from './src/worker/routes';
+import { ErrorHandler } from './src/models/ErrorHandler';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -109,6 +111,7 @@ app.get('/cms/content', CmsController.getCmsContent);
 app.post('/cms/content', CmsController.createCmsContent);
 app.delete('/cms/content/:id', CmsController.deleteCmsContent);
 
+app.use(errorHandlingMiddleware);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}.`);
