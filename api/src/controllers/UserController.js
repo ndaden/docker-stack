@@ -13,10 +13,10 @@ const UserController = {
         //1. creation du code d'activation
         const code = generateActivationCode(6);
 
-        const newActivationCode = new ActivationCode({ 
-            validationCode: code, 
-            validationCodeSendDate: moment(), 
-            validationCodeExpirationDate: moment().add(30, 'minute') 
+        const newActivationCode = new ActivationCode({
+            validationCode: code,
+            validationCodeSendDate: moment(),
+            validationCodeExpirationDate: moment().add(30, 'minute')
         });
 
         await newActivationCode.save();
@@ -29,7 +29,7 @@ const UserController = {
             isActive: false,
             password: hashSync(req.body.password, saltRounds),
             activationCode: newActivationCode,
-            roles: [ guestRole ],
+            roles: [guestRole],
         });
 
         newUser.save()
@@ -129,19 +129,15 @@ const UserController = {
             res.status(500).send({ success: false, message: 'Erreur technique' });
         }
     },
-    editAvatar(req, res) {
+    async editAvatar(req, res) {
         if (req.user) {
-            User.find({ username: req.user.username }).exec().then((result) => {
-                const user = result[0];
-                console.log(user);
-                uploadService.uploadFileToAwsS3(req.file.path, req.file.originalname, (error, result) => {
-                    user.avatarUrl = result.path;
-                    user.save();
-                    res.status(200).send({ success: true, avatarUrl: result.path })
-                });
-            }).catch(error => {
-                console.log(error);
-                res.status(500).send({ success: false });
+            const found = await User.find({ username: req.user.username }).exec();
+            const user = found;
+            await uploadService.optimizeImage(req.file.path);
+            uploadService.uploadFileToAwsS3(req.file.path, req.file.originalname, (error, result) => {
+                user.avatarUrl = result.path;
+                await user.save();
+                res.status(200).send({ success: true, avatarUrl: result.path })
             });
         } else {
             res.status(500).send({ success: false, message: 'erreur technique interne' });

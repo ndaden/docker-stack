@@ -63,16 +63,20 @@ const UploadService = {
             }
         });
     },
-    async optimizeImage(path, width, quality) {
+    async optimizeImage(path) {
         const image = await jimp.read(path);
-        await image.grayscale();
-        await image.contrast(0.3);
-        await image.brightness(0.3);
-        await image.normalize();
-        await image.resize(width, jimp.AUTO);
-        await image.quality(quality);
+        if (image.getHeight() !== image.getWidth()) {
+            const largestSide = image.getWidth() > image.getHeight() ? image.getWidth() : image.getHeight();
+            const smallerSide = image.getWidth() > image.getHeight() ? image.getHeight() : image.getWidth();
+            const diff = largestSide - smallerSide;
+            const x = image.getWidth() > image.getHeight() ? diff / 2 : 0;
+            const y = image.getHeight() > image.getWidth() ? diff / 2 : 0;
 
-        await image.writeAsync(path);
+            const width = image.getWidth() > image.getHeight() ? image.getWidth() - diff / 2 : image.getWidth();
+            const height = image.getHeight() > image.getWidth() ? image.getHeight() - diff / 2 : image.getHeight();
+            await image.crop(x, y, width, height);
+            await image.writeAsync(path);
+        }
     }
 }
 
