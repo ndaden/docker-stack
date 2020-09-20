@@ -5,6 +5,7 @@ import path from 'path';
 import jimp from 'jimp';
 
 import * as config from './config.js';
+import { ErrorHandler } from '../models/ErrorHandler.js';
 
 const UploadService = {
     init() {
@@ -19,7 +20,7 @@ const UploadService = {
             fileFilter: (req, file, cb) => {
                 const ext = path.extname(file.originalname);
                 if (!config.IMAGE_FILE_TYPES.includes(ext)) {
-                    return cb(new Error('Format de fichier non accepté.'))
+                    return cb(new ErrorHandler(500, 'Format de fichier non accepté.'))
                 }
                 cb(null, true);
             }
@@ -31,34 +32,34 @@ const UploadService = {
             accessKeyId: config.AWS_S3_KEY_ID,
             secretAccessKey: config.AWS_S3_KEY_SECRET,
             region: config.AWS_REGION
-          });
-        
+        });
+
         const s3 = new aws.S3();
 
         let ext = '';
         const arr = originalName.split('.');
-        if(arr.length > 1){
+        if (arr.length > 1) {
             ext = arr[arr.length - 1];
         }
-        
+
         var params = {
             ACL: 'public-read',
             Bucket: config.AWS_BUCKET,
             Body: fs.createReadStream(filepath),
             Key: `userAvatar/${arr[0]}-${Date.now()}.${ext}`
-          };
+        };
 
         s3.upload(params, (error, data) => {
-            if(error) {
+            if (error) {
                 console.log('Erreur Upload AWS S3 : ', error);
                 cb(error, null);
             }
 
-            if(data) {
+            if (data) {
                 fs.unlinkSync(filepath);
                 const locationUrl = data.Location;
 
-                cb(null, {path: locationUrl});
+                cb(null, { path: locationUrl });
             }
         });
     },
@@ -70,7 +71,7 @@ const UploadService = {
         await image.normalize();
         await image.resize(width, jimp.AUTO);
         await image.quality(quality);
-        
+
         await image.writeAsync(path);
     }
 }
