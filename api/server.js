@@ -20,7 +20,6 @@ import authMiddleware from './src/middleware/auth.middleware';
 import uploadMiddleware from './src/middleware/upload.middleware';
 import CmsController from './src/controllers/CmsController';
 import workerRoutes from './src/worker/routes';
-import { ErrorHandler } from './src/models/ErrorHandler';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -62,12 +61,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/v1/users', CrudGenerator(User));
-app.get('/v1/users', [authMiddleware, UserController.getAll]);
-app.delete('/v1/users/:id', [authMiddleware, UserController.deleteUser]);
 app.get('/v1/users/disable/:id', [authMiddleware, UserController.disableUser]);
 app.get('/v1/users/block/:id/:state', [authMiddleware, UserController.blockUser]);
-app.get('/v1/users/:id', UserController.getById);
-app.post('/v1/users', UserController.create);
 app.post('/v1/users/activate', UserController.activate);
 app.post('/v1/users/edit/avatar', [authMiddleware, uploadManager.single('avatar'), UserController.editAvatar]);
 app.post('/v1/users/edit/password', [authMiddleware, UserController.changePassword]);

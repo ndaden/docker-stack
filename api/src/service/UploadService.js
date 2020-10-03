@@ -9,10 +9,10 @@ import { ErrorHandler } from '../models/ErrorHandler.js';
 
 const UploadService = {
     init() {
-        const storage = multer.diskStorage({
+        /* const storage = multer.diskStorage({
             destination: (req, file, cb) => cb(null, 'dist/uploads'),
             filename: (req, file, cb) => cb(null, file.originalname)
-        });
+        }); */
 
         return multer({
             dest: 'dist/uploads',
@@ -26,7 +26,7 @@ const UploadService = {
             }
         });
     },
-    uploadFileToAwsS3(filepath, originalName, cb) {
+    async uploadFileToAwsS3(filepath, originalName) {
         aws.config.setPromisesDependency();
         aws.config.update({
             accessKeyId: config.AWS_S3_KEY_ID,
@@ -49,19 +49,9 @@ const UploadService = {
             Key: `userAvatar/${arr[0]}-${Date.now()}.${ext}`
         };
 
-        s3.upload(params, (error, data) => {
-            if (error) {
-                console.log('Erreur Upload AWS S3 : ', error);
-                cb(error, null);
-            }
-
-            if (data) {
-                fs.unlinkSync(filepath);
-                const locationUrl = data.Location;
-
-                cb(null, { path: locationUrl });
-            }
-        });
+        const response = await s3.upload(params).promise();
+        fs.unlinkSync(filepath);
+        return { path: response.Location };
     },
     async optimizeImage(path) {
         const image = await jimp.read(path);
@@ -72,12 +62,12 @@ const UploadService = {
             const x = image.getWidth() > image.getHeight() ? diff / 2 : 0;
             const y = image.getHeight() > image.getWidth() ? diff / 2 : 0;
 
-            const width = image.getWidth() > image.getHeight() ? image.getWidth() - diff / 2 : image.getWidth();
-            const height = image.getHeight() > image.getWidth() ? image.getHeight() - diff / 2 : image.getHeight();
-            await image.crop(x, y, width, height);
+            const width = image.getWidth() > image.getHeight() ? image.getWidth() - diff : image.getWidth();
+            const height = image.getHeight() > image.getWidth() ? image.getHeight() - diff : image.getHeight();
+            image.crop(x, y, width, height);
             await image.writeAsync(path);
         }
     }
-}
+};
 
 export default UploadService;
