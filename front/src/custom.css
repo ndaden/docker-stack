@@ -1,0 +1,236 @@
+  body {
+    background: #F0F2F4;
+  }
+
+  .bg {
+    background-image: url(https://bleedingcool.com/wp-content/uploads/2019/09/terminator-resistance-1-1200x597.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 500px;
+  }
+
+  .articles.main {
+    margin: 5rem 0;
+    margin-top: -200px;
+  }
+
+  .articles.main .content p {
+    line-height: 1.9;
+    margin: 15px 0;
+  }
+
+  .article.main,
+  .promo-block {
+    margin-top: 6rem;
+  }
+
+  .author-image {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    margin-left: -30px;
+    border: 3px solid #ccc;
+    border-radius: 50%;
+  }
+
+  .article.main {
+    margin-top: 6rem;
+  }
+
+  /* login */
+
+  .hero.is-success {
+    background: #F2F6FA;
+  }
+
+  .hero .nav,
+  .hero.is-success .nav {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .box {
+    margin-top: 5rem;
+  }
+
+  .avatar {
+    margin-top: -70px;
+    padding-bottom: 20px;
+  }
+
+  .avatar img {
+    padding: 5px;
+    background: #fff;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 2px 3px rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .1);
+    box-shadow: 0 2px 3px rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .1);
+  }
+
+  input {
+    font-weight: 300;
+  }
+
+  p {
+    font-weight: 700;
+  }
+
+  .signin p.subtitle {
+    padding-top: 1rem;
+  }
+
+  .login-hr {
+    border-bottom: 1px solid black;
+  }
+
+  .has-text-black {
+    color: black;
+  }
+
+  .field {
+    padding-bottom: 10px;
+  }
+
+  .fa {
+    margin-left: 5px;
+  }
+
+  .signin {
+    font-family: 'Questrial', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  /* PROFILE */
+
+  .show-on-hover:hover {
+    display: block !important;
+  }
+
+  .darken:hover img {
+    filter: brightness(30%);
+  }
+
+  .show-on-hover:hover+.is-hidden {
+    display: block !important;
+  }
+
+  .profile-cover {
+    min-height: 250px;
+    background: url('https://i.pinimg.com/originals/c1/5f/d1/c15fd13180df7eaa55aaa6960e7cc090.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .has-link-style {
+    text-decoration: none;
+    color: #3273dc;
+    font-weight: bold;
+    padding: 0;
+    height: 20px;
+    font-size: 14px;
+  }
+
+  .has-link-style:hover {
+    color: #000;
+  }
+
+  /* ADMIN */
+
+  .adm nav.navbar {
+    border-top: 4px solid #276cda;
+    margin-bottom: 1rem;
+  }
+
+  .adm .navbar-item.brand-text {
+    font-weight: 300;
+  }
+
+  .adm .navbar-item,
+  .adm .navbar-link {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .adm .columns {
+    width: 100%;
+    height: 100%;
+    margin-left: 0;
+  }
+
+  .adm .menu-label {
+    color: #8F99A3;
+    letter-spacing: 1.3;
+    font-weight: 700;
+  }
+
+  .adm .menu-list a {
+    color: #0F1D38;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .adm .menu-list a:hover {
+    background-color: transparent;
+    color: #276cda;
+  }
+
+  .adm .menu-list a.is-active {
+    background-color: transparent;
+    color: #276cda;
+    font-weight: 700;
+  }
+
+  .adm .card {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.18);
+    margin-bottom: 2rem;
+  }
+
+  .adm .card-header-title {
+    color: #8F99A3;
+    font-weight: 400;
+  }
+
+  .adm .info-tiles {
+    margin: 1rem 0;
+  }
+
+  .adm .info-tiles .subtitle {
+    font-weight: 300;
+    color: #8F99A3;
+  }
+
+  .adm .hero.welcome.is-info {
+    background: #36D1DC;
+    background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC);
+    background: linear-gradient(to right, #5B86E5, #36D1DC);
+  }
+
+  .adm .hero.welcome .title,
+  .hero.welcome .subtitle {
+    color: hsl(192, 17%, 99%);
+  }
+
+  .adm .card .content {
+    font-size: 14px;
+  }
+
+  .adm .card-footer-item {
+    font-size: 14px;
+    font-weight: 700;
+    color: #8F99A3;
+  }
+
+  .adm .card-footer-item:hover {}
+
+  .adm .card-table .table {
+    margin-bottom: 0;
+  }
+
+  .adm .events-card .card-table {
+    max-height: 250px;
+    overflow-y: scroll;
+  }

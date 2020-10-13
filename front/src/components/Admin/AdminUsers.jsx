@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from 'react';
 import moment from 'moment';
 import { AdminContext } from '../../providers/AdministrationContextProvider';
 import InputTag from './InputTag';
-import { needConfirmation } from '../Modal';
 import Dropdown from '../Dropdown';
 
 const AdminUsers = (props) => {
@@ -96,11 +95,11 @@ const AdminUsers = (props) => {
                                     <td id={`email-${user.username}`}>{user.email}</td>
                                     <td id={`activationcode-${user.username}`}>
                                         {user.activationCode
-                                        ? (
-                                            <div className="is-flex" style={{ justifyContent: 'space-between' }}>
-                                                <div>{user.activationCode.validationCode ? user.activationCode.validationCode : '-'}</div>
-                                                <div>{user.activationCode.validationCodeExpirationDate && moment().isAfter(user.activationCode.validationCodeExpirationDate) ? <span className="tag is-danger">expiré</span> : <span className="tag is-success">valide</span>}</div>
-                                            </div>
+                                            ? (
+                                                <div className="is-flex" style={{ justifyContent: 'space-between' }}>
+                                                    <div>{user.activationCode.validationCode ? user.activationCode.validationCode : '-'}</div>
+                                                    <div>{user.activationCode.validationCodeExpirationDate && moment().isAfter(user.activationCode.validationCodeExpirationDate) ? <span className="tag is-danger">expiré</span> : <span className="tag is-success">valide</span>}</div>
+                                                </div>
                                             ) : <span>-</span>
                                         }
                                     </td>
@@ -118,7 +117,7 @@ const AdminUsers = (props) => {
                                             type="checkbox"
                                             className="checkbox"
                                             checked={user.isBlocked}
-                                            onChange={(e) => { e.persist(); needConfirmation({ action: () => { onBlock(e.target.checked, user._id); } }) }} />
+                                            onChange={(e) => { }} />
                                     </td>
                                     <td id={`actions-${user.username}`}>
                                         <Dropdown key={user._id}>

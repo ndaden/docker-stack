@@ -1,37 +1,37 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-const Modal = ({ titre, contenu, action, close, labelYes, labelNo }) => {
-    return (<div className={`modal is-active`}>
-            <div className="modal-background"></div>
+const Modal = ({
+    hasHeader,
+    titre,
+    children,
+    action,
+    show,
+    close,
+    hasFooter,
+    labelYes,
+    labelNo }) => {
+    return (
+        <div className={`modal ${show ? 'is-active' : ''} `}>
+            <div className="modal-background" onClick={close} role="button"> </div>
             <div className="modal-card">
-                <header className="modal-card-head">
-                    <p className="modal-card-title">{titre}</p>
-                    <button className="delete" aria-label="close" onClick={() => { close();}}></button>
-                </header>
+                {hasHeader && (
+                    <header className="modal-card-head">
+                        <p className="modal-card-title">{titre}</p>
+                        <button className="delete" aria-label="close" onClick={close}> </button>
+                    </header>
+                )}
                 <section className="modal-card-body">
-                    {contenu}
+                    {children}
                 </section>
-                <footer className="modal-card-foot">
-                    <button className="button is-success" onClick={() => { action(); close(); }}>{labelYes}</button>
-                    <button className="button" onClick={() => { close();}}>{labelNo}</button>
-                </footer>
+                {hasFooter && (
+                    <footer className="modal-card-foot">
+                        <button className="button is-success" onClick={() => { action(); close(); }}>{labelYes}</button>
+                        <button className="button" onClick={close}>{labelNo}</button>
+                    </footer>
+                )}
             </div>
-        </div>);
-}
+        </div>
+    );
+};
 
-const needConfirmation = ({ action, titre = "Confirmation", message = "Souhaitez-vous vraiment faire cela ?", labelYes = "Oui", labelNo = "Non" }) => {
-    ReactDOM.render(<Modal 
-        titre={titre}
-        contenu={message}
-        labelYes={labelYes}
-        labelNo={labelNo}
-        close = {() => closeModale()}
-        action={() => { return action(); }} />, document.getElementById("modale"));
-}
-
-const closeModale = () => {
-    ReactDOM.render(<React.Fragment></React.Fragment>, document.getElementById("modale"));
-}
-
-export { Modal, needConfirmation };
+export default Modal;

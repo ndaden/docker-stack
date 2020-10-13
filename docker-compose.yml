@@ -9,24 +9,23 @@ services:
         volumes:
             - ./nginx/conf:/etc/nginx
             - ./nginx/www:/var/www
-        depends_on: 
-            - api
-            - front
+        #depends_on: 
+            #- api
+            #- front
     front:
         build:
             context: ./front
         ports: 
             - "9090:9090"
         env_file: ./.env.front-development
-        environment: 
-            - NODE_ENV=development
         volumes:
             - ./front:/opt/react_app
             - node_modules_front:/opt/react_app/node_modules
         #command: "sh -c 'npm run clean && npm run build && npm run start'"
         command: "npm run dev"
         depends_on: 
-            - api
+            - nginx
+        #    - api
     workers:
         build:
             context: ./workers
@@ -42,8 +41,8 @@ services:
         build: 
             context: ./api
         env_file: ./.env.api-development
-        environment: 
-            - toto=foo
+        ports:
+            - "3000:3000"
         volumes: 
             - ./api:/opt/node_app
             - node_modules_api:/opt/node_app/node_modules
@@ -51,6 +50,7 @@ services:
         command: npm run dev
         depends_on: 
             - db
+            - nginx
             - rabbit
     db:
         build: 
